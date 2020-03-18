@@ -73,6 +73,8 @@ namespace WinServiceConsole
 
         static string GetJSONMessage(string message)
         {
+            var result = message;
+
             char[] trimChars = { '{', '}', ' ', ';'};
             message = message.Trim(trimChars);
             string[] message_arr = message.Split(',').Select(it => it.Substring(it.IndexOf(':') + 1)).ToArray();
@@ -87,14 +89,16 @@ namespace WinServiceConsole
             //var result = string.Format("{\"Login\":\"{0}\"," + "\"Password\":\"{1}\"}" + "\"RecDateText\":\"{2}\"}",
             //    message_arr[0].Trim(trimChars), message_arr[1].Trim(trimChars), message_arr[2].Trim(trimChars))
 
-
-            var result = $@"{{""Login"":""{message_arr[0].Trim(trimChars)}""," + 
-                         $@"""Password"":""{message_arr[1].Trim(trimChars)}""," +  
-                         $@"""RecDateText':""{message_arr[2].Trim(trimChars)}""";
-
-            result = "{" + "\"" + "Login" + "\"" + " : " + "\"" + message_arr[0].Trim(trimChars) +"\"" + ", " +
-                           "\"" + "Password" + "\"" + " : " + "\"" + message_arr[1].Trim(trimChars) + "\"" + ", " +
-                           "\"" + "RecDateText" + "\"" + " : " + "\"" + message_arr[2].Trim(trimChars) + "\"" + "}";
+            //var result = $@"{{""Login"":""{message_arr[0].Trim(trimChars)}""," + 
+            //             $@"""Password"":""{message_arr[1].Trim(trimChars)}""," +  
+            //             $@"""RecDateText':""{message_arr[2].Trim(trimChars)}""";
+            
+            if (message_arr.Length == 3)
+            {
+                result = "{" + "\"" + "Login" + "\"" + " : " + "\"" + message_arr[0].Trim(trimChars) + "\"" + ", " +
+                               "\"" + "Password" + "\"" + " : " + "\"" + message_arr[1].Trim(trimChars) + "\"" + ", " +
+                               "\"" + "RecDateText" + "\"" + " : " + "\"" + message_arr[2].Trim(trimChars) + "\"" + "}";
+            }
 
             return result;
         }
